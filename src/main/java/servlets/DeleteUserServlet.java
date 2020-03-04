@@ -13,7 +13,7 @@ import java.io.IOException;
 
 @WebServlet("/delete")
 public class DeleteUserServlet extends HttpServlet {
-    ServiceImpl service = ServiceImpl.getInstance();
+    private ServiceImpl service = ServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

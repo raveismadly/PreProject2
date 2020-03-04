@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet("/update")
 public class UpdateUserServlet extends HttpServlet {
-    ServiceImpl service = ServiceImpl.getInstance();
+    private ServiceImpl service = ServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

@@ -9,16 +9,16 @@ public class User {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
+    private Long id;
 
     @Column(name = "name")
-    String name;
+    private String name;
 
     @Column(name = "surname")
-    String surname;
+    private String surname;
 
     @Column(name = "age")
-    int age;
+    private int age;
 
     public User() {
     }
@@ -65,7 +65,7 @@ public class User {
         this.name = name;
         this.surname = surname;
         this.age = age;
-        this.id=id;
+        this.id = id;
     }
 
 }

@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet("/create")
 public class CreateUserServlet extends HttpServlet {
-    ServiceImpl service = ServiceImpl.getInstance();
+    private ServiceImpl service = ServiceImpl.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) {

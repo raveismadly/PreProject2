@@ -12,7 +12,7 @@ import java.util.List;
 
 public class UserHibernateDAO implements UserDAO {
     private SessionFactory sessionFactory;
-    private Transaction transaction;
+//    private Transaction transaction;
 
     public UserHibernateDAO(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
@@ -21,12 +21,12 @@ public class UserHibernateDAO implements UserDAO {
     @Override
     public void addUser(User user) {
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.getTransaction();
+            Transaction transaction = session.getTransaction();
             transaction.begin();
             session.saveOrUpdate(user);
             transaction.commit();
         } catch (Exception e) {
-            transaction.rollback();
+            e.printStackTrace();
         }
     }
 
@@ -34,14 +34,12 @@ public class UserHibernateDAO implements UserDAO {
     public boolean deleteUser(Long id) {
         boolean deleted = false;
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.getTransaction();
+            Transaction transaction = session.getTransaction();
             transaction.begin();
             Query query = session.createQuery("delete User where id = :paramId");
             query.setParameter("paramId", id);
             deleted = query.executeUpdate() > 0;
             transaction.commit();
-        } catch (Exception e) {
-            transaction.rollback();
         }
         return deleted;
     }
@@ -49,29 +47,24 @@ public class UserHibernateDAO implements UserDAO {
     @Override
     public List<User> getAllUsers() {
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.getTransaction();
+            Transaction transaction = session.getTransaction();
             transaction.begin();
             List<User> list = session.createQuery("FROM User").list();
             transaction.commit();
             return list;
-        } catch (Exception e) {
-            e.printStackTrace();
-            transaction.rollback();
-            return null;
         }
+
     }
 
     @Override
     public boolean updateUser(User user) {
+        boolean updated= false;
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.getTransaction();
+            Transaction transaction = session.getTransaction();
             transaction.begin();
             session.saveOrUpdate(user);
             transaction.commit();
             return true;
-        } catch (Exception e) {
-            transaction.rollback();
-            return false;
         }
     }
 
@@ -79,20 +72,17 @@ public class UserHibernateDAO implements UserDAO {
     public User getUserById(Long id) {
         User user = null;
         try (Session session = sessionFactory.openSession()) {
-            transaction = session.getTransaction();
+            Transaction transaction = session.getTransaction();
             transaction.begin();
             Query query = session.createQuery("from User where id = :paramId");
-            List<User> userList = query.setParameter("paramId", id).list();
-            for (User u : userList) {
-                if (u.getId() == id) {
-                    user = u;
-                }
-            }
+             user = (User) query.setParameter("paramId", id).uniqueResult();
+//            for (User u : userList) {
+//                if (u.getId() == id) {
+//                    user = u;
+//                }
+//            }
             transaction.commit();
             return user;
-        } catch (Exception e) {
-            transaction.rollback();
-            return null;
         }
     }
 }

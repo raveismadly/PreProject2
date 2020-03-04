@@ -14,7 +14,7 @@ import java.util.List;
 
 @WebServlet("/read")
 public class ReadUserServlet extends HttpServlet {
-    ServiceImpl service=ServiceImpl.getInstance();
+    private ServiceImpl service=ServiceImpl.getInstance();
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         List<User> list = service.getAllUsers();
